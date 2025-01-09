@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/github-stars',
+  basePath: '',
   experimental: {
     serverActions: {
-      allowedOrigins: 'scastiel.dev',
+      allowedOrigins: ['scastiel.dev', 'localhost:3001', 'localhost:3002'],
     },
   },
 }

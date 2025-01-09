@@ -1,4 +1,6 @@
 'use client'
+
+import { useTheme } from '@/hooks/use-theme'
 import {
   GitHubStarsComposition,
   animationDurationInSeconds,
@@ -16,6 +18,7 @@ export function CompositionPlayer({
 }: {
   inputProps: Partial<Props>
 }) {
+  const isDark = useTheme()
   const divRef = useRef<HTMLDivElement>(null)
   const [divWidth, divHeight] = useSize(divRef)
 
@@ -35,6 +38,7 @@ export function CompositionPlayer({
           showVolumeControls={false}
           allowFullscreen={false}
           autoPlay
+          className={isDark ? 'dark' : ''}
         />
       )}
     </div>

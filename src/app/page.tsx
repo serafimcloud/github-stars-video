@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Video } from 'lucide-react'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { getGithubStarsInfo } from '../lib/github-stars-info'
@@ -17,10 +17,10 @@ export default async function Home({
 }: {
   searchParams: { repository?: string }
 }) {
-  const repository = searchParams.repository ?? 'remotion-dev/remotion'
+  const repository = searchParams.repository ?? 'rorkai/21st'
 
   return (
-    <main className="flex-1 flex flex-col gap-8 justify-center items-center p-4">
+    <main className="container flex flex-col gap-8 justify-center items-center py-8">
       <RepositoryForm initialRepository={repository} />
       <Suspense
         key={repository}
@@ -33,7 +33,15 @@ export default async function Home({
           </ResultCard>
         }
       >
-        <RepositoryResult repository={repository} />
+        <div className="flex flex-col items-center gap-6 w-full max-w-[1280px]">
+          <RepositoryResult repository={repository} />
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Video className="w-4 h-4" />
+            <span>
+              To save this animation, simply record your screen while it plays
+            </span>
+          </div>
+        </div>
       </Suspense>
     </main>
   )
@@ -56,7 +64,7 @@ async function RepositoryResult({ repository }: { repository: string }) {
               <strong>{repository}</strong>) does not exist.
             </p>
             <Image
-              src="/github-stars/lost.gif"
+              src="/lost.gif"
               alt=""
               width={198}
               height={187}

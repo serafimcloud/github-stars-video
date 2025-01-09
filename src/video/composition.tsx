@@ -1,3 +1,6 @@
+import { NumberFlow } from '@/components/ui/number-flow'
+import { useTheme } from '@/hooks/use-theme'
+import { continuous } from '@number-flow/react'
 import {
   AbsoluteFill,
   Easing,
@@ -8,7 +11,8 @@ import {
 } from 'remotion'
 import { Props } from './schema'
 
-export const animationDurationInSeconds = 3
+export const animationDurationInSeconds = 4
+export const initialPauseInSeconds = 1
 export const width = 1280
 export const height = 720
 export const fps = 60
@@ -23,15 +27,18 @@ export function GitHubStarsComposition({
   stargazers,
   stars,
 }: Props) {
+  const isDark = useTheme()
+
   return (
-    <AbsoluteFill className="bg-white">
+    <AbsoluteFill className={isDark ? 'bg-zinc-950' : 'bg-white'}>
       <RepositoryInformation
         user={user}
         userAvatarUrl={userAvatarUrl}
         repository={repository}
+        isDark={isDark}
       />
       <UserAvatars stargazers={stargazers} />
-      <StarCount stars={stars} />
+      <StarCount stars={stars} isDark={isDark} />
     </AbsoluteFill>
   )
 }
@@ -39,9 +46,11 @@ export function GitHubStarsComposition({
 function StarCount({
   stars,
   startFrom = 0,
+  isDark,
 }: {
   stars: number
   startFrom?: number
+  isDark?: boolean
 }) {
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
@@ -49,9 +58,10 @@ function StarCount({
   const starsToDisplay = Math.round(
     interpolate(
       frame,
-      [0, animationDurationInSeconds * fps],
-      [startFrom, stars],
+      [initialPauseInSeconds * fps, animationDurationInSeconds * fps],
+      [0, stars],
       {
+        extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
         easing: Easing.bezier(0.5, 1, 0.5, 1),
       },
@@ -59,9 +69,21 @@ function StarCount({
   )
 
   return (
-    <div className="text-right px-16 pb-16 text-[128px] text-black">
+    <div
+      className={`text-right px-16 pb-16 text-[128px] ${
+        isDark ? 'text-white' : 'text-black'
+      }`}
+    >
       <strong className="tabular-nums">
-        {starsToDisplay.toLocaleString('en-US', { useGrouping: true })}
+        <NumberFlow
+          value={starsToDisplay}
+          format={{
+            useGrouping: true,
+            trailingZeroDisplay: 'stripIfInteger',
+          }}
+          className="text-[128px]"
+          plugins={[continuous]}
+        />
       </strong>
       &nbsp;stars
     </div>
@@ -87,13 +109,19 @@ function RepositoryInformation({
   user,
   userAvatarUrl,
   repository,
+  isDark,
 }: {
   user: string
   userAvatarUrl: string
   repository: string
+  isDark?: boolean
 }) {
   return (
-    <div className="p-16 text-[72px] whitespace-nowrap overflow-hidden text-ellipsis text-black">
+    <div
+      className={`p-16 text-[72px] whitespace-nowrap overflow-hidden ${
+        isDark ? 'text-white' : 'text-black'
+      }`}
+    >
       <span>
         <Img
           src={userAvatarUrl}
@@ -123,14 +151,18 @@ function User({
     stargazerAvatarGap + index * (stargazerAvatarSize + stargazerAvatarGap)
   const left = interpolate(
     frame,
-    [0, animationDurationInSeconds * fps],
+    [initialPauseInSeconds * fps, animationDurationInSeconds * fps],
     [
       offset,
       offset -
         stargazers.length * (stargazerAvatarSize + stargazerAvatarGap) +
         (width * 3) / 4,
     ],
-    { extrapolateRight: 'clamp', easing: Easing.elastic(1) },
+    {
+      extrapolateLeft: 'clamp',
+      extrapolateRight: 'clamp',
+      easing: Easing.elastic(1),
+    },
   )
   return (
     <div className="absolute top-0 flex flex-col" style={{ left }}>
