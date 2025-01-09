@@ -79,7 +79,6 @@ function StarCount({
           value={starsToDisplay}
           format={{
             useGrouping: true,
-            trailingZeroDisplay: 'stripIfInteger',
           }}
           className="text-[128px]"
           plugins={[continuous]}

@@ -14,22 +14,71 @@ import './globals.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
-  title: 'GitHub Stars Video',
-  description: 'Create beautiful animations of your GitHub repository stars',
+  title: 'GitHub Stars Video Generator',
+  description:
+    'Create beautiful animations showing the growth of stars on any GitHub repository. Perfect for social media posts, presentations, and documentation.',
+  keywords: [
+    'github',
+    'stars',
+    'animation',
+    'video generator',
+    'repository',
+    'social media',
+    'github stats',
+    'star count',
+    'visualization',
+    'remotion',
+    'next.js',
+  ],
+  authors: [
+    { name: 'Sebastien Castiel', url: 'https://scastiel.dev' },
+    { name: 'serafim', url: 'https://x.com/serafimcloud' },
+  ],
+  creator: 'serafim',
+  publisher: 'serafim',
   openGraph: {
-    title: 'GitHub Stars Video',
-    description: 'Create beautiful animations of your GitHub repository stars',
-    images: `/banner.png`,
     type: 'website',
+    locale: 'en_US',
     url: '/',
+    title: 'GitHub Stars Video Generator',
+    description:
+      'Create beautiful animations showing the growth of stars on any GitHub repository',
+    siteName: 'GitHub Stars Video Generator',
+    images: [
+      {
+        url: '/banner.png',
+        width: 1200,
+        height: 630,
+        alt: 'GitHub Stars Video Generator Preview',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     creator: '@serafimcloud',
     site: '@serafimcloud',
-    images: `/banner.png`,
-    title: 'GitHub Stars Video',
-    description: 'Create beautiful animations of your GitHub repository stars',
+    images: [
+      {
+        url: '/banner.png',
+        width: 1200,
+        height: 630,
+        alt: 'GitHub Stars Video Generator Preview',
+      },
+    ],
+    title: 'GitHub Stars Video Generator',
+    description:
+      'Create beautiful animations showing the growth of stars on any GitHub repository',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 }
 

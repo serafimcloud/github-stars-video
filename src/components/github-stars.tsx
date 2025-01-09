@@ -3,6 +3,10 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { useQuery } from '@tanstack/react-query'
 
+interface GitHubResponse {
+  stargazers_count: number
+}
+
 export function GitHubStars() {
   const { data: stars, isLoading } = useQuery({
     queryKey: ['github-stars'],
@@ -10,8 +14,8 @@ export function GitHubStars() {
       const res = await fetch(
         'https://api.github.com/repos/serafimcloud/github-stars-video',
       )
-      const data = await res.json()
-      return data.stargazers_count as number
+      const data = (await res.json()) as GitHubResponse
+      return data.stargazers_count
     },
     staleTime: 1000 * 60 * 5,
     retry: 2,
